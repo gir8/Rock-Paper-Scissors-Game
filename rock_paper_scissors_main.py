@@ -2,8 +2,7 @@
 import random
 import customtkinter as ctk
 from tkinter import Menu, messagebox
-# from rps_screen import *
-import rps_screen as screen
+import rps_lower as screen
 import time
 
 
@@ -57,16 +56,6 @@ class RPS(ctk.CTk):
                                    width=470,
                                    height=300)
         self.screen.grid(column=0, row=0, sticky="w", padx=15, pady=(15, 1))
-        # self.scoreboard = ctk.CTkLabel(top_frame,
-        #                                fg_color="#000000",
-        #                                bg_color="transparent",
-        #                                text_color="#00FF77",
-        #                                justify="center",
-        #                                font=("Times New Roman", 28, "bold"),
-        #                                width=355,
-        #                                text="Wins: " + f"{self.win_var}" + "  Losses: " + f"{self.loss}" + "  Ties: " + f"{self.tie}",
-        #                                anchor="s")
-        # self.scoreboard.grid(column=0, row=0, sticky="sew", padx=30, pady=30, )
 
     def player(self, button_var):
         self.button_var = button_var.lower()
@@ -118,6 +107,7 @@ class RPS(ctk.CTk):
         # clears the screen
         self.text_var.set("")
 
+        self.change_state("disabled")
         for line in write:
             for c in line:
                 original = self.text_var.get()
@@ -125,6 +115,7 @@ class RPS(ctk.CTk):
                 time.sleep(0.07)
                 self.update()
             time.sleep(0.20)
+        self.change_state("enabled")
 
     def win_or_lose(self):
         if self.loss == 3:
@@ -152,8 +143,11 @@ class RPS(ctk.CTk):
         self.win = 0
         self.loss = 0
         self.write_to_text()
-    # def change_state(self):
 
+    def change_state(self, status: str):
+        self.create_bottom.rock.configure(state=status)
+        self.create_bottom.paper.configure(state=status)
+        self.create_bottom.scissors.configure(state=status)
 
 
 rps = RPS().mainloop()
